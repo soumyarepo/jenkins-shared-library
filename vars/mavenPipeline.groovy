@@ -1,31 +1,37 @@
 def call() {
     pipeline {
         agent any
+
         stages {
-            stage('checkout') {
+            stage('Checkout') {
                 steps {
                     checkout scm
                 }
             }
-            stage('build') {
+
+            stage('Verify Project') {
                 steps {
-                    dir('student-maven-app') {
-                        sh 'mvn clean complie'
-                    }
+                    sh 'pwd'
+                    sh 'ls -ltr'
+                    sh 'find . -name pom.xml'
                 }
             }
-            stage('test') {
+
+            stage('Build') {
                 steps {
-                    dir('student-maven-app') {
-                        sh 'mvn test'
-                    }
+                    sh 'mvn clean compile'
                 }
             }
-            stage('package') {
+
+            stage('Test') {
                 steps {
-                    dir('student-maven-app') {
-                        sh 'mvn package'
-                    }
+                    sh 'mvn test'
+                }
+            }
+
+            stage('Package') {
+                steps {
+                    sh 'mvn package'
                 }
             }
         }
